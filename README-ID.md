@@ -79,7 +79,7 @@ Aplikasi web komprehensif untuk mengelola operasi rumah sakit, janji temu, dan r
 1. **Clone repositori**
 
 ```bash
-git clone https://github.com/yourusername/hospital-management-system.git
+git clone https://github.com/to2kmulyono/hmslaravel.git
 cd hospital-management-system
 ```
 
@@ -132,11 +132,11 @@ php artisan serve
 
 ## 👥 Kredensial Login Default
 
-| Peran  | Email               | Password |
-| ------ | ------------------- | -------- |
-| Admin  | admin@example.com   | password |
-| Staff  | staff@example.com   | password |
-| Pasien | patient@example.com | password |
+| Peran  | Email                  | Password |
+| ------ | -------------------    | -------- |
+| Admin  | admin@rumahsakit.com   | password |
+| Staff  | petugas@rumahsakit.com | password |
+| Pasien | pasien@rumahsakit.com  | password |
 
 ## 📊 Arsitektur Sistem
 
