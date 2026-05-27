@@ -73,7 +73,7 @@ A comprehensive web application for managing hospital operations, appointments, 
 
 1. **Clone the repository**
 ```bash
-git clone https://github.com/yourusername/hospital-management-system.git
+git clone https://github.com/to2kmulyono/hmslaravel.git
 cd hospital-management-system
 ```
 
@@ -119,11 +119,11 @@ php artisan serve
 
 ## 👥 Default Login Credentials
 
-| Role | Email | Password |
-|------|-------|----------|
-| Admin | admin@example.com | password |
-| Staff | staff@example.com | password |
-| Patient | patient@example.com | password |
+| Peran  | Email                  | Password |
+| ------ | -------------------    | -------- |
+| Admin  | admin@rumahsakit.com   | password |
+| Staff  | petugas@rumahsakit.com | password |
+| Pasien | pasien@rumahsakit.com  | password |
 
 
 ## 📊 System Architecture
