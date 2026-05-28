@@ -53,6 +53,7 @@
                                 <option value="admin">Admin</option>
                                 <option value="petugas">Petugas</option>
                                 <option value="pasien">Pasien</option>
+                                <option value="dokter">Dokter</option>
                             </select>
                         </div>
                     </div>

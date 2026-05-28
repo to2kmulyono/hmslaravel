@@ -91,11 +91,18 @@
                 </a>
             </li>
 
-            <!-- Nav Item - Riwayat Periksa -->
             <li class="nav-item {{ request()->routeIs('pasien.riwayat-periksa') ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('pasien.riwayat-periksa') }}">
                     <i class="fas fa-fw fa-file-medical"></i>
-                    <span>Rekam Medis</span>
+                    <span>Rekam Periksa</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - Riwayat Resep -->
+            <li class="nav-item {{ request()->routeIs('pasien.riwayat-resep') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('pasien.riwayat-resep') }}">
+                    <i class="fas fa-fw fa-pills"></i>
+                    <span>Riwayat Resep</span>
                 </a>
             </li>
 

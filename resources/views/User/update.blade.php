@@ -53,6 +53,7 @@
                                 <option value="admin" {{ $user->roles == 'admin' ? 'selected' : '' }}>Admin</option>
                                 <option value="petugas" {{ $user->roles == 'petugas' ? 'selected' : '' }}>Petugas</option>
                                 <option value="pasien" {{ $user->roles == 'pasien' ? 'selected' : '' }}>Pasien</option>
+                                <option value="dokter" {{ $user->roles == 'dokter' ? 'selected' : '' }}>Dokter</option>
                             </select>
                         </div>
                     </div>

@@ -26,6 +26,7 @@ class Datapasien extends Model
         'scan_kberobat', // Note: This field name may be different from what's used in the validation
         'no_kbpjs',     // BPJS card number
         'scan_kbpjs',   // BPJS card scan
+        'is_bpjs',
         'scan_kasuransi' // Insurance card scan
     ];
     

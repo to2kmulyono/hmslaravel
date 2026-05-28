@@ -12,7 +12,10 @@ class dokter extends Model
     // Beritahu Laravel untuk menggunakan tabel 'dokter'
     protected $table = 'dokter';
     
-    protected $fillable = ['nama_dokter', 'poliklinik_id', 'foto_dokter'];
+    protected $fillable = [
+        'nama_dokter', 'poliklinik_id', 'foto_dokter',
+        'jenkel', 'alamat', 'telp', 'spesialis', 'id_user'
+    ];
     
     public function poliklinik()
     {
@@ -29,5 +32,10 @@ class dokter extends Model
     public function getAverageRatingAttribute()
     {
         return $this->ratings()->avg('rating') ?: 0;
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, 'id_user');
     }
 }

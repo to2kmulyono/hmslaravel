@@ -67,6 +67,8 @@ class LoginController extends Controller
                     return redirect()->route('dashboard-admin');
                 case 'petugas':
                     return redirect()->route('dashboard-petugas');
+                case 'dokter':
+                    return redirect()->route('dashboard-dokter');
                 case 'pasien':
                     return redirect()->route('dashboard-pasien');
                 default:

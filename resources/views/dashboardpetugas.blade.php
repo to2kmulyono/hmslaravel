@@ -224,6 +224,18 @@
                         </span>
                         <span class="text">Rekam Medis</span>
                     </a>
+                    <a href="{{ route('obat.index') }}" class="btn btn-warning btn-icon-split btn-lg btn-block mb-3">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-pills"></i>
+                        </span>
+                        <span class="text">Data Obat</span>
+                    </a>
+                    <a href="{{ route('obat.resep') }}" class="btn btn-secondary btn-icon-split btn-lg btn-block mb-3">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-prescription"></i>
+                        </span>
+                        <span class="text">Antrean Resep</span>
+                    </a>
                     <a href="{{ route('pasien.index') }}" class="btn btn-secondary btn-icon-split btn-lg btn-block">
                         <span class="icon text-white-50">
                             <i class="fas fa-users"></i>

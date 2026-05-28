@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use App\Models\RekamMedis;
 
 class PetugasController extends Controller
 {
@@ -168,11 +169,33 @@ class PetugasController extends Controller
     public function rekamMedis($id = null)
     {
         if ($id) {
-            // Show specific medical record
-            return view('petugas.rekam-medis-detail');
+            // Menampilkan riwayat rekam medis pasien tertentu
+            $riwayat = RekamMedis::where('pasien_id', $id)->with('dokter')->get();
+            return view('petugas.rekam-medis-detail', compact('riwayat'));
         }
-        // Show list of medical records
-        return view('petugas.rekam-medis-list');
+        
+        // Menampilkan seluruh rekam medis untuk list
+        $rekamMedis = RekamMedis::with(['pasien', 'dokter'])->get();
+        return view('petugas.rekam-medis-list', compact('rekamMedis'));
+    }
+
+    // Menyimpan data rekam medis baru
+    public function storeRekamMedis(Request $request)
+    {
+        $validated = $request->validate([
+            'pasien_id' => 'required|exists:users,id',
+            'keluhan_utama' => 'required|string',
+            'diagnosa' => 'required|string',
+            'tindakan' => 'nullable|string',
+            'resep_obat' => 'nullable|string',
+        ]);
+
+        // Dokter yang menangani/login otomatis terekam
+        $validated['dokter_id'] = auth()->id();
+
+        RekamMedis::create($validated);
+
+        return redirect()->back()->with('success', 'Rekam medis berhasil disimpan.');
     }
 
     public function prosesAntrian($id)

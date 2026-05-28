@@ -40,7 +40,7 @@ class DatauserController extends Controller
                 'password' => 'required|string|min:6|confirmed',
                 'no_telepon' => 'required|string|max:15',
                 'foto_user' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'roles' => 'required|in:admin,kepala_rs,petugas,pasien',
+                'roles' => 'required|in:admin,kepala_rs,petugas,pasien,dokter',
             ]);
 
             // Handle file upload for user photo

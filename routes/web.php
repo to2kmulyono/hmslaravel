@@ -14,6 +14,8 @@ use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\AntrianController;
 use App\Http\Controllers\RatingController;
 use App\Http\Controllers\SystemMetricsController;
+use App\Http\Controllers\DashboardDokterController;
+use App\Http\Controllers\ObatController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,12 +37,31 @@ Route::get('/', function () {
 Route::get('/dashboard-admin', [AdminController::class, 'index'])->name('dashboard-admin');
 Route::get('/dashboard-petugas', [PetugasController::class, 'index'])->name('dashboard-petugas');
 Route::get('/dashboard-pasien', [PasienController::class, 'index'])->name('dashboard-pasien');
+Route::get('/dashboard-dokter', [DashboardDokterController::class, 'index'])->name('dashboard-dokter');
 
 // Simplified Poliklinik routes
 Route::resource('poliklinik', PoliklinikController::class);
 
-// Simplified Dokter routes
-Route::resource('dokter', DokterController::class);
+// Dokter Portal Routes - MUST be before Route::resource to avoid wildcard conflict
+Route::middleware(['auth', 'role:dokter'])->group(function() {
+    Route::get('/dokter/pasien', [DashboardDokterController::class, 'pasien'])->name('dokter.pasien');
+    Route::get('/dokter/rekam-medis', [DashboardDokterController::class, 'rekamMedis'])->name('dokter.rekam-medis.index');
+    Route::get('/dokter/rekam-medis/create', [DashboardDokterController::class, 'createRekamMedis'])->name('dokter.rekam-medis.create');
+    Route::post('/dokter/rekam-medis', [DashboardDokterController::class, 'storeRekamMedis'])->name('dokter.rekam-medis.store');
+    Route::get('/dokter/rekam-medis/{id}/edit', [DashboardDokterController::class, 'editRekamMedis'])->name('dokter.rekam-medis.edit');
+    Route::put('/dokter/rekam-medis/{id}', [DashboardDokterController::class, 'updateRekamMedis'])->name('dokter.rekam-medis.update');
+    Route::delete('/dokter/rekam-medis/{id}', [DashboardDokterController::class, 'destroyRekamMedis'])->name('dokter.rekam-medis.destroy');
+    
+    // Route SPK TOPSIS
+    Route::post('/dokter/rekam-medis/spk-obat', [DashboardDokterController::class, 'spkRekomendasiObat'])->name('dokter.rekam-medis.spk-obat');
+
+    // Data Ruang & Obat view only
+    Route::get('/dokter/ruang', [DashboardDokterController::class, 'ruang'])->name('dokter.ruang.index');
+    Route::get('/dokter/obat', [DashboardDokterController::class, 'obat'])->name('dokter.obat');
+});
+
+// Simplified Dokter routes (admin/petugas CRUD management of doctor profiles)
+Route::resource('dokter', DokterController::class)->middleware(['auth', 'role:admin,petugas']);
 
 // Jadwal Poliklinik
 Route::get('/jadwalpoliklinik', [JadwalpoliklinikController::class, 'index'])->name('jadwalpoliklinik.index');
@@ -72,6 +93,10 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/user/{id}/edit', [DatauserController::class, 'edit'])->name('user.edit');
     Route::put('/user/{id}', [DatauserController::class, 'update'])->name('user.update');
     Route::delete('/user/{id}', [DatauserController::class, 'destroy'])->name('user.destroy');
+
+    // Admin Laporan Farmasi
+    Route::get('/laporan/riwayat-obat', [\App\Http\Controllers\LaporanFarmasiController::class, 'riwayatObat'])->name('admin.laporan.riwayat-obat');
+    Route::get('/laporan/riwayat-resep', [\App\Http\Controllers\LaporanFarmasiController::class, 'riwayatResep'])->name('admin.laporan.riwayat-resep');
 });
 
 // Profile Routes - accessible by any authenticated user
@@ -112,6 +137,7 @@ Route::middleware(['auth'])->group(function() {
         // Jadwal Periksa and Riwayat Periksa routes
         Route::get('/jadwal-periksa', [PasienController::class, 'jadwalPeriksa'])->name('pasien.jadwal-periksa');
         Route::get('/riwayat-periksa', [PasienController::class, 'riwayatPeriksa'])->name('pasien.riwayat-periksa');
+        Route::get('/riwayat-resep', [PasienController::class, 'riwayatResep'])->name('pasien.riwayat-resep');
     });
     
     // Store route - accessible by all authenticated users
@@ -138,9 +164,17 @@ Route::middleware(['auth'])->group(function() {
 Route::middleware(['auth', 'role:petugas'])->group(function() {
     Route::get('/petugas/antrian', [PetugasController::class, 'antrianHariIni'])->name('petugas.antrian');
     Route::get('/petugas/rekam-medis/{id?}', [PetugasController::class, 'rekamMedis'])->name('petugas.rekam-medis');
+    Route::post('/petugas/rekam-medis', [PetugasController::class, 'storeRekamMedis'])->name('petugas.rekam-medis.store');
     Route::post('/petugas/antrian/{id}/proses', [PetugasController::class, 'prosesAntrian'])->name('petugas.proses-antrian');
     Route::post('/petugas/antrian/{id}/selesai', [PetugasController::class, 'selesaiAntrian'])->name('petugas.selesai-antrian');
+    Route::resource('ruang', \App\Http\Controllers\Petugas\RuangController::class)->middleware(['auth','role:petugas']);
     Route::get('/petugas/riwayat-antrian', [PetugasController::class, 'riwayatAntrian'])->name('petugas.riwayat-antrian');
+    
+    // Obat & Resep Routes (Manajemen Obat & Pengeluaran)
+    Route::resource('/petugas/obat', ObatController::class)->names('obat');
+    Route::get('/petugas/resep', [ObatController::class, 'resep'])->name('obat.resep');
+    Route::get('/petugas/resep/{id}/pengeluaran', [ObatController::class, 'pengeluaran'])->name('obat.pengeluaran');
+    Route::post('/petugas/resep/{id}/pengeluaran', [ObatController::class, 'storePengeluaran'])->name('obat.pengeluaran.store');
 });
 
 // Admin Routes for queue history

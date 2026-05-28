@@ -184,4 +184,17 @@ class PasienController extends Controller
         
         return view('pasien.riwayat-antrian', compact('antrianAktif', 'riwayatAntrian'));
     }
+
+    public function riwayatResep()
+    {
+        $user = Auth::user();
+        
+        $riwayatResep = \App\Models\RekamMedis::with(['dokter', 'pengeluaranObat.obat'])
+            ->where('pasien_id', $user->id)
+            ->whereNotNull('resep_obat')
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+            
+        return view('pasien.riwayat-resep', compact('riwayatResep'));
+    }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Dokter;
 use App\Models\Poliklinik;
+use App\Models\User;
 use App\Models\Rating;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Log;
@@ -46,7 +47,8 @@ class DokterController extends Controller
     {
         Log::info('Metode create dipanggil');
         $poliklinik = Poliklinik::all();
-        return view('dokter.create', compact('poliklinik'));
+        $users = User::where('roles', 'dokter')->get(); // Get only users with role dokter
+        return view('dokter.create', compact('poliklinik', 'users'));
     }
 
     /**
@@ -57,11 +59,15 @@ class DokterController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi data
         $validatedData = $request->validate([
             'nama_dokter' => 'required|max:255',
             'poliklinik_id' => 'required',
-            'foto_dokter' => 'image|nullable|max:1999'
+            'foto_dokter' => 'image|nullable|max:1999',
+            'jenkel' => 'nullable|in:Pria,Wanita',
+            'alamat' => 'nullable|string',
+            'telp' => 'nullable|string|max:30',
+            'spesialis' => 'nullable|string|max:30',
+            'id_user' => 'nullable|exists:user,id'
         ]);
 
         // Proses upload file foto
@@ -80,6 +86,11 @@ class DokterController extends Controller
         $dokter->nama_dokter = $validatedData['nama_dokter'];
         $dokter->poliklinik_id = $validatedData['poliklinik_id'];
         $dokter->foto_dokter = $filenameToStore;
+        $dokter->jenkel = $validatedData['jenkel'] ?? null;
+        $dokter->alamat = $validatedData['alamat'] ?? null;
+        $dokter->telp = $validatedData['telp'] ?? null;
+        $dokter->spesialis = $validatedData['spesialis'] ?? null;
+        $dokter->id_user = $validatedData['id_user'] ?? null;
         $dokter->save();
 
         return redirect()->route('dokter.index')->with('success', 'Berhasil menyimpan data');
@@ -130,7 +141,8 @@ class DokterController extends Controller
     {
         $dokter = Dokter::find($id);
         $poliklinik = Poliklinik::all(); // Asumsikan Anda memiliki model Poliklinik untuk mengambil semua data poliklinik
-        return view('dokter.update', compact('dokter', 'poliklinik'));
+        $users = User::where('roles', 'dokter')->get();
+        return view('dokter.update', compact('dokter', 'poliklinik', 'users'));
     }
 
     /**
@@ -146,7 +158,12 @@ class DokterController extends Controller
         $validatedData = $request->validate([
             'nama_dokter' => 'required|max:255',
             'poliklinik_id' => 'required',
-            'foto_dokter' => 'image|nullable|max:1999'
+            'foto_dokter' => 'image|nullable|max:1999',
+            'jenkel' => 'nullable|in:Pria,Wanita',
+            'alamat' => 'nullable|string',
+            'telp' => 'nullable|string|max:30',
+            'spesialis' => 'nullable|string|max:30',
+            'id_user' => 'nullable|exists:user,id'
         ]);
     
         // Find the doctor record
@@ -172,6 +189,11 @@ class DokterController extends Controller
         // Update the doctor data
         $dokter->nama_dokter = $validatedData['nama_dokter'];
         $dokter->poliklinik_id = $validatedData['poliklinik_id'];
+        $dokter->jenkel = $validatedData['jenkel'] ?? null;
+        $dokter->alamat = $validatedData['alamat'] ?? null;
+        $dokter->telp = $validatedData['telp'] ?? null;
+        $dokter->spesialis = $validatedData['spesialis'] ?? null;
+        $dokter->id_user = $validatedData['id_user'] ?? null;
         
         if ($dokter->save()) {
             return redirect()->route('dokter.index')->with('success', 'Data berhasil diperbarui');

@@ -105,19 +105,23 @@
             </div>
             
             <!-- Nav Item - Queue Reports -->
-            <li class="nav-item {{ request()->routeIs('antrian.index') || request()->routeIs('admin.riwayat-antrian') || request()->routeIs('admin.riwayat-pasien') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->routeIs('antrian.index') || request()->routeIs('admin.riwayat-antrian') || request()->routeIs('admin.riwayat-pasien') || request()->routeIs('admin.laporan.riwayat-obat') || request()->routeIs('admin.laporan.riwayat-resep') ? 'active' : '' }}">
                 <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseReports"
-                    aria-expanded="{{ request()->routeIs('antrian.index') || request()->routeIs('admin.riwayat-antrian') || request()->routeIs('admin.riwayat-pasien') ? 'true' : 'false' }}" 
+                    aria-expanded="{{ request()->routeIs('antrian.index') || request()->routeIs('admin.riwayat-antrian') || request()->routeIs('admin.riwayat-pasien') || request()->routeIs('admin.laporan.riwayat-obat') || request()->routeIs('admin.laporan.riwayat-resep') ? 'true' : 'false' }}" 
                     aria-controls="collapseReports">
                     <i class="fas fa-fw fa-chart-line"></i>
                     <span>Laporan</span>
                 </a>
-                <div id="collapseReports" class="collapse {{ request()->routeIs('antrian.index') || request()->routeIs('admin.riwayat-antrian') || request()->routeIs('admin.riwayat-pasien') ? 'show' : '' }}" 
+                <div id="collapseReports" class="collapse {{ request()->routeIs('antrian.index') || request()->routeIs('admin.riwayat-antrian') || request()->routeIs('admin.riwayat-pasien') || request()->routeIs('admin.laporan.riwayat-obat') || request()->routeIs('admin.laporan.riwayat-resep') ? 'show' : '' }}" 
                     aria-labelledby="headingReports" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item {{ request()->routeIs('antrian.index') ? 'active' : '' }}" href="{{ route('antrian.index') }}">Pendaftaran Harian</a>
                         <a class="collapse-item {{ request()->routeIs('admin.riwayat-antrian') ? 'active' : '' }}" href="{{ route('admin.riwayat-antrian') }}">Riwayat Kunjungan</a>
                         <a class="collapse-item {{ request()->routeIs('admin.riwayat-pasien') ? 'active' : '' }}" href="{{ route('admin.riwayat-pasien') }}">Data Histori Pasien</a>
+                        <div class="collapse-divider"></div>
+                        <h6 class="collapse-header">Laporan Farmasi:</h6>
+                        <a class="collapse-item {{ request()->routeIs('admin.laporan.riwayat-obat') ? 'active' : '' }}" href="{{ route('admin.laporan.riwayat-obat') }}">Riwayat Obat</a>
+                        <a class="collapse-item {{ request()->routeIs('admin.laporan.riwayat-resep') ? 'active' : '' }}" href="{{ route('admin.laporan.riwayat-resep') }}">Riwayat Resep</a>
                     </div>
                 </div>
             </li>

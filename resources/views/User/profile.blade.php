@@ -1,7 +1,8 @@
 @extends(
     Auth::user()->roles == 'admin' ? 'layout.admin' : 
     (Auth::user()->roles == 'pasien' ? 'layout.pasien' :
-    (Auth::user()->roles == 'petugas' ? 'layout.petugas' : 'layout.petugas')))
+    (Auth::user()->roles == 'dokter' ? 'layout.dokter' :
+    (Auth::user()->roles == 'petugas' ? 'layout.petugas' : 'layout.petugas'))))
 
 @section('title', 'Edit Profile')
 

@@ -93,6 +93,34 @@
                     <span>Rekam Medis</span>
                 </a>
             </li>
+<li class="nav-item {{ request()->routeIs('ruang.index') ? 'active' : '' }}">
+    <a class="nav-link" href="{{ route('ruang.index') }}">
+        <i class="fas fa-fw fa-door-open"></i>
+        <span>Data Ruang</span>
+    </a>
+</li>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Apotek & Obat
+            </div>
+
+            <li class="nav-item {{ request()->routeIs('obat.index') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('obat.index') }}">
+                    <i class="fas fa-fw fa-pills"></i>
+                    <span>Data Obat</span>
+                </a>
+            </li>
+
+            <li class="nav-item {{ request()->routeIs('obat.resep') || request()->routeIs('obat.pengeluaran') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('obat.resep') }}">
+                    <i class="fas fa-fw fa-prescription-bottle-alt"></i>
+                    <span>Antrean Resep</span>
+                </a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">

@@ -122,33 +122,34 @@ class AdminController extends Controller
 
     public function riwayatAntrian(Request $request)
     {
-        // Get date from request or use today's date
-        $date = $request->date ? Carbon::parse($request->date)->format('Y-m-d') : Carbon::today()->format('Y-m-d');
-        
-        // Get patients for the selected date with any status
+        // Determine the date to filter – default to today if none provided
+        $dateInput = $request->input('date');
+        $date = $dateInput ? Carbon::parse($dateInput)->format('Y-m-d') : Carbon::today()->format('Y-m-d');
+
+        // Fetch all queue entries for the selected date
         $riwayat = Antrian::whereDate('tanggal_berobat', $date)
             ->orderBy('no_antrian', 'asc')
             ->get()
-            ->map(function($item) {
+            ->map(function ($item) {
                 return [
-                    'id' => $item->id,
-                    'no_antrian' => $item->no_antrian,
-                    'nama_pasien' => $item->nama_pasien,
-                    'poli' => $item->poliklinik,
-                    'dokter' => $item->nama_dokter,
-                    'waktu_mulai' => $item->waktu_mulai ? Carbon::parse($item->waktu_mulai)->format('H:i:s') : '-',
-                    'waktu_selesai' => $item->waktu_selesai ? Carbon::parse($item->waktu_selesai)->format('H:i:s') : '-',
-                    'tanggal' => $item->tanggal_berobat->format('d/m/Y'),
-                    'status' => ucfirst($item->status)
+                    'id'           => $item->id,
+                    'no_antrian'   => $item->no_antrian,
+                    'nama_pasien'  => $item->nama_pasien,
+                    'poli'         => $item->poliklinik,
+                    'dokter'       => $item->nama_dokter,
+                    'waktu_mulai'  => $item->waktu_mulai ? Carbon::parse($item->waktu_mulai)->format('H:i:s') : '-',
+                    'waktu_selesai'=> $item->waktu_selesai ? Carbon::parse($item->waktu_selesai)->format('H:i:s') : '-',
+                    'status'       => ucfirst($item->status),
+                    'tanggal'      => $item->tanggal_berobat->format('d/m/Y'),
                 ];
             });
 
-        // Group by status for summary
+        // Summary counts for the selected date
         $summary = [
-            'total' => $riwayat->count(),
+            'total'    => $riwayat->count(),
             'menunggu' => $riwayat->where('status', 'Menunggu')->count(),
-            'diproses' => $riwayat->where('status', 'Diproses')->count(),
-            'dilayani' => $riwayat->where('status', 'Dilayani')->count(),
+            'diproses'=> $riwayat->where('status', 'Diproses')->count(),
+            'dilayani'=> $riwayat->where('status', 'Dilayani')->count(),
         ];
 
         return view('admin.riwayat-antrian', compact('riwayat', 'date', 'summary'));

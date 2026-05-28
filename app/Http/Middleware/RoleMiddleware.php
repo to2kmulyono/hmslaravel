@@ -39,6 +39,9 @@ class RoleMiddleware
             case 'petugas':
                 return redirect()->route('dashboard-petugas')
                     ->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
+            case 'dokter':
+                return redirect()->route('dashboard-dokter')
+                    ->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
             case 'pasien':
                 return redirect()->route('dashboard-pasien')
                     ->with('error', 'Anda tidak memiliki akses ke halaman tersebut.');
