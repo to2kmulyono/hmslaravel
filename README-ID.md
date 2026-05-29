@@ -23,41 +23,52 @@ Aplikasi web komprehensif untuk mengelola operasi rumah sakit, janji temu, dan r
 
 ### Sistem Multi-Peran
 
--   **👩‍💼 Admin**: Manajemen sistem, kontrol pengguna, dan analitik
--   **👨‍⚕️ Staff**: Pendaftaran pasien, penanganan janji temu, dan rekam medis
--   **🧑‍🤝‍🧑 Pasien**: Booking janji temu, pelacakan antrian, dan akses riwayat medis
+- **👩‍💼 Admin**: Manajemen sistem, kontrol pengguna, dan analitik
+- **👨‍⚕️ Staff**: Pendaftaran pasien, penanganan janji temu, dan rekam medis
+- **🧑‍🤝‍🧑 Pasien**: Booking janji temu, pelacakan antrian, dan akses riwayat medis
 
 ### Portal Admin
 
 ![admin](./storage/readme/admin-ss.png)
 
--   Dashboard komprehensif dengan metrik real-time
--   Manajemen pengguna (buat, perbarui, hapus)
--   Manajemen departemen/poliklinik
--   Penjadwalan dokter
--   Pemantauan kinerja sistem
--   Pelaporan dan analitik
+Admin bertanggung jawab atas manajemen sistem secara keseluruhan, data master, dan pemantauan. Entitas yang dikelola:
 
-### Portal Staff
+User: Manajemen akun pengguna sistem beserta hak aksesnya (Admin, Petugas, Dokter, Pasien).
+poliklinik: Manajemen departemen atau layanan klinik yang tersedia di rumah sakit.
+Ruang: Manajemen fasilitas ruangan (ketersediaan dan kapasitas).
+dokter & jadwalpoliklinik: Manajemen data dokter beserta penjadwalan jadwal praktiknya.
+Obat: Manajemen data master inventaris obat/farmasi.
+
+### Portal Staff/ Petugas
 
 ![staff](./storage/readme/staff-ss.png)
 
--   Pendaftaran dan manajemen pasien
--   Pemrosesan janji temu
--   Manajemen antrian
--   Akses rekam medis
--   Laporan pasien harian
+Staff/Petugas bertugas di garda depan untuk melayani pendaftaran, antrean, administrasi, dan farmasi. Entitas yang dikelola:
+
+Datapasien: Pendaftaran pasien baru dan pembaruan data demografis pasien.
+Pendaftaran & Antrian: Pemrosesan janji temu, penentuan nomor urut antrean pasien untuk hari berjalan.
+PengeluaranObat: Pemrosesan resep yang diberikan dokter dan manajemen pemberian obat kepada pasien.
+Akses Baca/Laporan: RiwayatKunjungan dan RekamMedis untuk verifikasi riwayat kunjungan pasien.
+
+### Role: Dokter
+
+![doctor](./storage/readme/doctor-ss.png)
+Meskipun di README tergabung secara tidak langsung pada fitur staf, secara logika medis dokter memiliki porsi khusus untuk mengelola operasional medis. Entitas yang dikelola:
+
+RekamMedis: Pencatatan hasil pemeriksaan, diagnosis, keluhan, dan tindakan medis untuk pasien.
+RiwayatKunjungan: Validasi kunjungan selesai untuk tiap pasien yang diperiksa.
+Antrian: Memperbarui status antrean pasien (misalnya dari "Diproses" menjadi "Dilayani").
 
 ### Portal Pasien
 
 ![patient](./storage/readme/patient-ss.png)
 
--   Booking janji temu
--   Pelacakan antrian
--   Akses riwayat medis
--   Riwayat resep
--   Manajemen profil
--   Sistem penilaian layanan
+Pasien menggunakan portal mandiri untuk melakukan pendaftaran dan mengecek riwayat kesehatannya. Entitas yang diakses:
+
+Datapasien & User: Manajemen profil pribadi mandiri.
+Pendaftaran & Antrian: Pembuatan (booking) janji temu poli dan pelacakan posisi antrean secara real-time.
+RekamMedis & PengeluaranObat: Akses read-only (hanya baca) untuk melihat riwayat diagnosis medis dan riwayat resep obat yang pernah diterima.
+Rating: Memberikan umpan balik (penilaian/ulasan) terhadap kualitas pelayanan rumah sakit pasca-kunjungan.
 
 ## 🛠️ Teknologi yang Digunakan
 
@@ -69,10 +80,10 @@ Aplikasi web komprehensif untuk mengelola operasi rumah sakit, janji temu, dan r
 
 ## 📋 Persyaratan
 
--   PHP >= 8.0
--   MySQL
--   Composer
--   Node.js & NPM
+- PHP >= 8.0
+- MySQL
+- Composer
+- Node.js & NPM
 
 ## 🚀 Instalasi
 
@@ -133,7 +144,7 @@ php artisan serve
 ## 👥 Kredensial Login Default
 
 | Peran  | Email                  | Password |
-| ------ | -------------------    | -------- |
+| ------ | ---------------------- | -------- |
 | Admin  | admin@rumahsakit.com   | password |
 | Staff  | petugas@rumahsakit.com | password |
 | Pasien | pasien@rumahsakit.com  | password |
@@ -166,7 +177,7 @@ app/
 
 Dokumentasi detail tersedia di direktori `docs/`:
 
--   [Dokumentasi](docs/installation.md)
+- [Dokumentasi](docs/installation.md)
 
 ## 🤝 Kontribusi
 
@@ -178,9 +189,9 @@ Proyek ini dilisensikan di bawah Lisensi MIT - lihat file [LICENSE](LICENSE) unt
 
 ## 👏 Ucapan Terima Kasih
 
--   Komunitas Laravel
--   Tim Bootstrap
--   Semua kontributor yang telah membantu meningkatkan sistem ini
+- Komunitas Laravel
+- Tim Bootstrap
+- Semua kontributor yang telah membantu meningkatkan sistem ini
 
 ## Kontak
 
